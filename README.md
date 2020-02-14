@@ -1,1 +1,1 @@
-:copyright_:snake:
+:copyright:_:snake:
