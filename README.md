@@ -1,5 +1,5 @@
 :copyright:_:snake:
 
-Run:
+**Run:**
 * `gcc main -o main.c`
 * `./main`
