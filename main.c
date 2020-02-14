@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include "deque.h"
 
 void print_stage(int h, int w) {
-  for (int i = 0; i < h; i++) {
-    for (int j = 0; j < w; j++) {
+  for (int y = 0; y < h; y++) {
+    for (int x = 0; x < w; x++) {
       printf("# ");
     }
     printf("\n");
