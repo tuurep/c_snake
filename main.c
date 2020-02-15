@@ -5,7 +5,12 @@
 void print_stage(deque *snake, int h, int w) {
   for (int y = 0; y < h; y++) {
     for (int x = 0; x < w; x++) {
-      printf("# ");
+      if (contains_coords(snake, x, y)) {
+        printf("O ");
+      }
+      else {
+        printf(". ");
+      }
     }
     printf("\n");
   }

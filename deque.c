@@ -7,62 +7,72 @@
 // By Neeraj Mishra
  
 void initialize(deque *p) {
-	p -> last = -1;
-	p -> first = -1;
+	p->last = -1;
+	p->first = -1;
 }
 
 int empty(deque *p) {
-	if(p -> last == -1)
+	if(p->last == -1)
 		return 1;
 	
 	return 0;
 }
  
 int full(deque *p) {
-	if((p -> last +1) % MAX == p -> first)
+	if((p->last +1) % MAX == p->first)
 		return 1;
 	
 	return 0;
 }
+
+int contains_coords(deque *p, int x, int y) {
+  for (int i = 0; i <= p->last; i++) {
+    if (p->data[i].x == x && p->data[i].y == y) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
  
 void enqueue_tail(deque *p, coords c) {
 	if (empty(p)) {
-		p -> last = 0;
-		p -> first = 0;
-		p -> data[0].x = c.x;
-    p -> data[0].y = c.y;
+		p->last = 0;
+		p->first = 0;
+		p->data[0].x = c.x;
+    p->data[0].y = c.y;
 	} 
   else {
-		p -> last = (p -> last + 1) % MAX;
-		p -> data[p -> last].x = c.x;
-    p -> data[p -> last].y = c.y;
+		p->last = (p->last + 1) % MAX;
+		p->data[p->last].x = c.x;
+    p->data[p->last].y = c.y;
 	}
 }
  
 void enqueue_head(deque *p, coords c) {
 	if (empty(p)) {
-    p -> last = 0;
-		p -> first = 0;
-		p -> data[0].x = c.x;
-    p -> data[0].y = c.y;
+    p->last = 0;
+		p->first = 0;
+		p->data[0].x = c.x;
+    p->data[0].y = c.y;
 	}
 	else {
-		p -> first = (p -> first - 1 + MAX) % MAX;
-		p -> data[p -> first].x = c.x;
-    p -> data[p -> first].y = c.y;
+		p->first = (p->first - 1 + MAX) % MAX;
+		p->data[p->first].x = c.x;
+    p->data[p->first].y = c.y;
 	}
 }
  
 coords dequeue_head(deque *p) {
 	coords c;
 	
-	c.x = p -> data[p -> first].x;
-  c.y = p -> data[p -> first].y;
+	c.x = p->data[p->first].x;
+  c.y = p->data[p->first].y;
 	
-	if (p -> last == p -> first)	//delete the last element
+	if (p->last == p->first)	//delete the last element
 		initialize(p);
 	else
-		p -> first = (p -> first + 1) % MAX;
+		p->first = (p->first + 1) % MAX;
 	
 	return c;
 }
@@ -70,13 +80,13 @@ coords dequeue_head(deque *p) {
  coords dequeue_tail(deque *p) {
 	coords c;
 	
-	c.x = p -> data[p -> last].x;
-  c.y = p -> data[p -> last].y;
+	c.x = p->data[p->last].x;
+  c.y = p->data[p->last].y;
 	
-	if (p -> last == p -> first)
+	if (p->last == p->first)
 		initialize(p);
 	else
-		p -> last = (p -> last - 1 + MAX) % MAX;
+		p->last = (p->last - 1 + MAX) % MAX;
 		
 	return c;
 }
@@ -89,12 +99,12 @@ void print(deque *p) {
 	}
 	
 	int i;
-	i = p -> first;
+	i = p->first;
 	
 	while (i != p -> last) {
-		printf("\n(%d, %d)", p -> data[i].x, p -> data[i].y);
+		printf("\n(%d, %d)", p->data[i].x, p->data[i].y);
 		i = (i + 1) % MAX;
 	}
 	
-	printf("\n(%d, %d)\n", p -> data[p -> last].x, p -> data[p -> last].y);
+	printf("\n(%d, %d)\n", p->data[p->last].x, p->data[p->last].y);
 }

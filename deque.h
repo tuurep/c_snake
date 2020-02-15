@@ -18,6 +18,7 @@ typedef struct deque {
 void initialize(deque *p);
 int empty(deque *p);
 int full(deque *p);
+int contains_coords(deque *p, int x, int y);
 void enqueue_tail(deque *p, coords c);
 void enqueue_head(deque *p, coords c);
 coords dequeue_head(deque *p);
