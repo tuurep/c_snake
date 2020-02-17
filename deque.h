@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#define MAX 30 // Should be width * height of stage in the end?
+#define MAX 10608 // Should be width * height of stage in the end?
 
 typedef struct coords {
 	int x;
