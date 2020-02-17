@@ -3,22 +3,38 @@
 #include "deque.h"
 
 void print_stage(deque *snake, int h, int w) {
+  char border[] = "$";
+  char body[] = "O";
+  char empty[] = " ";
+  char apple[] = "o";
+
+  for (int i = 0; i < w + 2; i++) {
+    printf("%s ", border);
+  }
+
+  printf("\n");
+
   for (int y = 0; y < h; y++) {
+    printf("%s ", border);
     for (int x = 0; x < w; x++) {
       if (contains_coords(snake, x, h - y)) {
-        printf("O ");
+        printf("%s ", body);
       }
       else {
-        printf(". ");
+        printf("%s ", empty);
       }
     }
-    printf("\n");
+    printf("%s\n", border);
+  }
+
+  for (int i = 0; i < w + 2; i++) {
+    printf("%s ", border);
   }
 }
 
 int main() {
-  int stage_height = 10, stage_width = 10; // Don't forget: MAX in deque.h should be stage_width * stage_height (I think).
-  
+  int stage_height = 15, stage_width = 15; // Don't forget: MAX in deque.h should be stage_width * stage_height (I think).
+
   coords head;
   head.x = 6;
   head.y = 6;
