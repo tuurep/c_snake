@@ -51,18 +51,16 @@ void move_snake(deque *snake, coords new_head) {
 
 int main() {
   enum direction { // Right, Left, Up, Down
-    R,
-    L,
-    U,
-    D
+    R, L, U, D
   };
-
-  enum direction dir = R;
 
   int stage_height = 15; // Min 1, max 51
   int stage_width = 15; // Min 1, max 208
   int ch;
   deque snake;
+
+  // To be randomized:
+  enum direction dir = R;
 
   coords head;
   head.x = 6;
@@ -83,6 +81,7 @@ int main() {
   coords tail;
   tail.x = 3;
   tail.y = 5;
+  // End of randomized
 
   initialize(&snake);
 
@@ -91,7 +90,7 @@ int main() {
   enqueue_tail(&snake, body2);
   enqueue_tail(&snake, body3);
   enqueue_tail(&snake, tail);
-
+  
   ncurses_settings();
 
   while(1) {
@@ -103,10 +102,14 @@ int main() {
 
     // Press q to quit
     if (ch == 113) break;
-    if (ch == KEY_RIGHT && dir != L) dir = R;
-    if (ch == KEY_LEFT && dir != R) dir = L;
-    if (ch == KEY_UP && dir != D) dir = U;
-    if (ch == KEY_DOWN && dir != U) dir = D;
+    if ((ch == KEY_RIGHT || ch == 100) && dir != L)
+      dir = R;
+    if ((ch == KEY_LEFT || ch == 97) && dir != R)
+      dir = L;
+    if ((ch == KEY_UP || ch == 119) && dir != D)
+      dir = U;
+    if ((ch == KEY_DOWN || ch == 115) && dir != U)
+      dir = D;
 
     if (dir == R && peek_head(&snake).x < stage_width - 1) {
       coords new_head = peek_head(&snake);
@@ -136,7 +139,6 @@ int main() {
   }
 
   endwin();
-
 
   print(&snake);
   print_stage(&snake, stage_height, stage_width);
