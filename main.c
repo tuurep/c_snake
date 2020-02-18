@@ -3,8 +3,10 @@
 #include <ncurses.h>
 #include "deque.h"
 
-void cls() {
-    printf("\x1b[2J");
+void ncurses_settings() {
+  initscr();
+  raw();
+  noecho();
 }
 
 void print_stage(deque *snake, int h, int w) {
@@ -38,7 +40,10 @@ void print_stage(deque *snake, int h, int w) {
 }
 
 int main() {
-  int stage_height = 15, stage_width = 15;
+  int stage_height = 15; // Min 1, max 51
+  int stage_width = 15; // Min 1, max 208
+  int ch;
+  deque snake;
 
   coords head;
   head.x = 6;
@@ -60,7 +65,6 @@ int main() {
   tail.x = 3;
   tail.y = 5;
 
-  deque snake;
   initialize(&snake);
 
   enqueue_tail(&snake, head);
@@ -71,10 +75,17 @@ int main() {
 
   print(&snake);
 
-  initscr();
-  cls();
+  ncurses_settings();
 
   print_stage(&snake, stage_height, stage_width);
+
+  for (int i = 0; i < 20; i++) {
+    timeout(-1);
+    ch = getch();
+    printf("%d %c\n\r", ch, ch);
+  }
+
+  endwin();
 
   return 0;
 }
