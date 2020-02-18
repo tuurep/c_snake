@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 #include "deque.h"
+
+void cls() {
+    printf("\x1b[2J");
+}
 
 void print_stage(deque *snake, int h, int w) {
   char border[] = "$";
@@ -12,7 +17,7 @@ void print_stage(deque *snake, int h, int w) {
     printf("%s ", border);
   }
 
-  printf("\n");
+  printf("\n\r");
 
   for (int y = 0; y < h; y++) {
     printf("%s ", border);
@@ -24,7 +29,7 @@ void print_stage(deque *snake, int h, int w) {
         printf("%s ", empty);
       }
     }
-    printf("%s\n", border);
+    printf("%s\n\r", border);
   }
 
   for (int i = 0; i < w + 2; i++) {
@@ -33,7 +38,7 @@ void print_stage(deque *snake, int h, int w) {
 }
 
 int main() {
-  int stage_height = 15, stage_width = 15; // Don't forget: MAX in deque.h should be stage_width * stage_height (I think).
+  int stage_height = 15, stage_width = 15;
 
   coords head;
   head.x = 6;
@@ -65,6 +70,9 @@ int main() {
   enqueue_tail(&snake, tail);
 
   print(&snake);
+
+  initscr();
+  cls();
 
   print_stage(&snake, stage_height, stage_width);
 
