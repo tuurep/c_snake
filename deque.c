@@ -19,20 +19,38 @@ int empty(deque *p) {
 }
  
 int full(deque *p) {
-	if((p->last +1) % MAX == p->first)
+	if((p->last + 1) % MAX == p->first)
 		return 1;
 	
 	return 0;
 }
 
 int contains_coords(deque *p, int x, int y) {
-  for (int i = 0; i <= p->last; i++) {
-    if (p->data[i].x == x && p->data[i].y == y) {
-      return 1;
-    }
-  }
+  if (empty(p)) {
+		return 0;
+	}
+	
+	int i;
+	i = p->first;
+	
+	while (i != p -> last) {
+		if (p->data[i].x == x && p->data[i].y == y)
+			return 1;
+		i = (i + 1) % MAX;
+	}
+	if (p->data[p->last].x == x && p->data[p->last].y == y)
+		return 1;
 
-  return 0;
+	return 0;
+}
+
+coords peek_head(deque *p) {
+	coords c;
+	
+	c.x = p->data[p->first].x;
+  c.y = p->data[p->first].y;
+
+	return c;
 }
  
 void enqueue_tail(deque *p, coords c) {
@@ -77,7 +95,7 @@ coords dequeue_head(deque *p) {
 	return c;
 }
  
- coords dequeue_tail(deque *p) {
+coords dequeue_tail(deque *p) {
 	coords c;
 	
 	c.x = p->data[p->last].x;
@@ -92,9 +110,8 @@ coords dequeue_head(deque *p) {
 }
  
 void print(deque *p) {
-	if (empty(p))
-	{
-		printf("\nQueue is empty!!");
+	if (empty(p)) {
+		printf("\n\rQueue is empty!!");
 		exit(0);
 	}
 	
@@ -102,9 +119,9 @@ void print(deque *p) {
 	i = p->first;
 	
 	while (i != p -> last) {
-		printf("\n(%d, %d)", p->data[i].x, p->data[i].y);
+		printf("\n\r(%d, %d)", p->data[i].x, p->data[i].y);
 		i = (i + 1) % MAX;
 	}
 	
-	printf("\n(%d, %d)\n", p->data[p->last].x, p->data[p->last].y);
+	printf("\n\r(%d, %d)\n\r", p->data[p->last].x, p->data[p->last].y);
 }
