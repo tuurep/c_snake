@@ -111,26 +111,24 @@ int main() {
     if ((ch == KEY_DOWN || ch == 115) && dir != U)
       dir = D;
 
+    coords new_head = peek_head(&snake);
+
     if (dir == R && peek_head(&snake).x < stage_width - 1) {
-      coords new_head = peek_head(&snake);
       new_head.x++;
       move_snake(&snake, new_head);
     }
 
     if (dir == L && peek_head(&snake).x > 0) {
-      coords new_head = peek_head(&snake);
       new_head.x--;
       move_snake(&snake, new_head);
     }
 
     if (dir == U && peek_head(&snake).y < stage_height) {
-      coords new_head = peek_head(&snake);
       new_head.y++;
       move_snake(&snake, new_head);
     }
 
     if (dir == D && peek_head(&snake).y > 1) {
-      coords new_head = peek_head(&snake);
       new_head.y--;
       move_snake(&snake, new_head);
     }
