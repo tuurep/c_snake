@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#define MAX 10608 // Should be width * height of stage in the end?
+#define MAX 10608 // Maximum size of snake, can't exceed stage size
 
 typedef struct coords {
 	int x;
