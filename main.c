@@ -7,6 +7,7 @@ void ncurses_settings() {
   initscr();
   raw();
   noecho();
+  keypad(stdscr, TRUE);
 }
 
 void print_stage(deque *snake, int h, int w) {
@@ -86,16 +87,59 @@ int main() {
 
   ncurses_settings();
 
-  for (int i = 0; i < 20; i++) {
+  while(1) {
     print(&snake);
     print_stage(&snake, stage_height, stage_width);
 
     timeout(1000);
     ch = getch();
 
+    if (ch == 113) { // Press q to quit
+      printf("\n\rYou pressed it!");
+      break;
+    }
+
+    if (ch == KEY_RIGHT) {
+      printf("\n\rYou pressed it!"); 
+      dir = R;
+    }
+    if (ch == KEY_LEFT) {
+      printf("\n\rYou pressed it!");
+      dir = L;
+    }
+    if (ch == KEY_UP) {
+      printf("\n\rYou pressed it!");
+      dir = U;
+    }
+    if (ch == KEY_DOWN) {
+      printf("\n\rYou pressed it!");
+      dir = D;
+    }
+
     if (dir == R && peek_head(&snake).x < stage_width - 1) {
       coords new_head = peek_head(&snake);
-      new_head.x += 1;
+      new_head.x++;
+      enqueue_head(&snake, new_head);
+      dequeue_tail(&snake);
+    }
+
+    if (dir == L && peek_head(&snake).x > 0) {
+      coords new_head = peek_head(&snake);
+      new_head.x--;
+      enqueue_head(&snake, new_head);
+      dequeue_tail(&snake);
+    }
+
+    if (dir == U && peek_head(&snake).y < stage_height) {
+      coords new_head = peek_head(&snake);
+      new_head.y++;
+      enqueue_head(&snake, new_head);
+      dequeue_tail(&snake);
+    }
+
+    if (dir == D && peek_head(&snake).y > 1) {
+      coords new_head = peek_head(&snake);
+      new_head.y--;
       enqueue_head(&snake, new_head);
       dequeue_tail(&snake);
     }
