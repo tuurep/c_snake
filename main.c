@@ -37,9 +37,20 @@ void print_stage(deque *snake, int h, int w) {
   for (int i = 0; i < w + 2; i++) {
     printf("%s ", border);
   }
+
+  printf("\n\r");
 }
 
 int main() {
+  enum direction { // Right, Left, Up, Down
+    R,
+    L,
+    U,
+    D
+  };
+
+  enum direction dir = R;
+
   int stage_height = 15; // Min 1, max 51
   int stage_width = 15; // Min 1, max 208
   int ch;
@@ -73,19 +84,30 @@ int main() {
   enqueue_tail(&snake, body3);
   enqueue_tail(&snake, tail);
 
-  print(&snake);
-
   ncurses_settings();
 
-  print_stage(&snake, stage_height, stage_width);
-
   for (int i = 0; i < 20; i++) {
-    timeout(-1);
+    print(&snake);
+    print_stage(&snake, stage_height, stage_width);
+
+    timeout(1000);
     ch = getch();
+
+    if (dir == R && peek_head(&snake).x < stage_width - 1) {
+      coords new_head = peek_head(&snake);
+      new_head.x += 1;
+      enqueue_head(&snake, new_head);
+      dequeue_tail(&snake);
+    }
+
     printf("%d %c\n\r", ch, ch);
   }
 
   endwin();
+
+
+  print(&snake);
+  print_stage(&snake, stage_height, stage_width);
 
   return 0;
 }
