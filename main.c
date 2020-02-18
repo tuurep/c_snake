@@ -42,6 +42,13 @@ void print_stage(deque *snake, int h, int w) {
   printf("\n\r");
 }
 
+void move_snake(deque *snake, coords new_head) {
+  if (!contains_coords(snake, new_head.x, new_head.y)) {
+    enqueue_head(snake, new_head);
+    dequeue_tail(snake);
+  }
+}
+
 int main() {
   enum direction { // Right, Left, Up, Down
     R,
@@ -94,54 +101,35 @@ int main() {
     timeout(1000);
     ch = getch();
 
-    if (ch == 113) { // Press q to quit
-      printf("\n\rYou pressed it!");
-      break;
-    }
-
-    if (ch == KEY_RIGHT) {
-      printf("\n\rYou pressed it!"); 
-      dir = R;
-    }
-    if (ch == KEY_LEFT) {
-      printf("\n\rYou pressed it!");
-      dir = L;
-    }
-    if (ch == KEY_UP) {
-      printf("\n\rYou pressed it!");
-      dir = U;
-    }
-    if (ch == KEY_DOWN) {
-      printf("\n\rYou pressed it!");
-      dir = D;
-    }
+    // Press q to quit
+    if (ch == 113) break;
+    if (ch == KEY_RIGHT && dir != L) dir = R;
+    if (ch == KEY_LEFT && dir != R) dir = L;
+    if (ch == KEY_UP && dir != D) dir = U;
+    if (ch == KEY_DOWN && dir != U) dir = D;
 
     if (dir == R && peek_head(&snake).x < stage_width - 1) {
       coords new_head = peek_head(&snake);
       new_head.x++;
-      enqueue_head(&snake, new_head);
-      dequeue_tail(&snake);
+      move_snake(&snake, new_head);
     }
 
     if (dir == L && peek_head(&snake).x > 0) {
       coords new_head = peek_head(&snake);
       new_head.x--;
-      enqueue_head(&snake, new_head);
-      dequeue_tail(&snake);
+      move_snake(&snake, new_head);
     }
 
     if (dir == U && peek_head(&snake).y < stage_height) {
       coords new_head = peek_head(&snake);
       new_head.y++;
-      enqueue_head(&snake, new_head);
-      dequeue_tail(&snake);
+      move_snake(&snake, new_head);
     }
 
     if (dir == D && peek_head(&snake).y > 1) {
       coords new_head = peek_head(&snake);
       new_head.y--;
-      enqueue_head(&snake, new_head);
-      dequeue_tail(&snake);
+      move_snake(&snake, new_head);
     }
 
     printf("%d %c\n\r", ch, ch);
