@@ -2,8 +2,7 @@
 #define DEQUE_H
 
 #include <stdlib.h>
-
-#define MAX 10608 // Maximum size of snake, can't exceed stage size
+#include "game_settings.h"
 
 typedef struct coords {
 	int x;
@@ -11,7 +10,7 @@ typedef struct coords {
 } coords;
 
 typedef struct deque {
-	coords data[MAX];
+	coords data[MAX_Q_SIZE];
 	int first, last;
 } deque;
  

@@ -11,32 +11,27 @@ void ncurses_settings() {
 }
 
 void print_stage(deque *snake, int h, int w) {
-  char border[] = "$";
-  char body[] = "O";
-  char empty[] = " ";
-  char apple[] = "o";
-
   for (int i = 0; i < w + 2; i++) {
-    printf("%s ", border);
+    printf("%c ", BORDER);
   }
 
   printf("\n\r");
 
   for (int y = 0; y < h; y++) {
-    printf("%s ", border);
+    printf("%c ", BORDER);
     for (int x = 0; x < w; x++) {
       if (contains_coords(snake, x, h - y)) {
-        printf("%s ", body);
+        printf("%c ", BODY);
       }
       else {
-        printf("%s ", empty);
+        printf("%c ", EMPTY);
       }
     }
-    printf("%s\n\r", border);
+    printf("%c\n\r", BORDER);
   }
 
   for (int i = 0; i < w + 2; i++) {
-    printf("%s ", border);
+    printf("%c ", BORDER);
   }
 
   printf("\n\r");
@@ -54,8 +49,6 @@ int main() {
     R, L, U, D
   };
 
-  int stage_height = 15; // Min 1, max 51
-  int stage_width = 15; // Min 1, max 208
   int ch;
   deque snake;
 
@@ -95,9 +88,9 @@ int main() {
 
   while(1) {
     print(&snake);
-    print_stage(&snake, stage_height, stage_width);
+    print_stage(&snake, STAGE_HEIGHT, STAGE_WIDTH);
 
-    timeout(1000);
+    timeout(200);
     ch = getch();
 
     // Press q to quit
@@ -113,7 +106,7 @@ int main() {
 
     coords new_head = peek_head(&snake);
 
-    if (dir == R && peek_head(&snake).x < stage_width - 1) {
+    if (dir == R && peek_head(&snake).x < STAGE_WIDTH - 1) {
       new_head.x++;
       move_snake(&snake, new_head);
     }
@@ -123,7 +116,7 @@ int main() {
       move_snake(&snake, new_head);
     }
 
-    if (dir == U && peek_head(&snake).y < stage_height) {
+    if (dir == U && peek_head(&snake).y < STAGE_WIDTH) {
       new_head.y++;
       move_snake(&snake, new_head);
     }
@@ -139,7 +132,7 @@ int main() {
   endwin();
 
   print(&snake);
-  print_stage(&snake, stage_height, stage_width);
+  print_stage(&snake, STAGE_HEIGHT, STAGE_WIDTH);
 
   return 0;
 }

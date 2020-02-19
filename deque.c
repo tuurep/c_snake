@@ -19,7 +19,7 @@ int empty(deque *p) {
 }
  
 int full(deque *p) {
-	if((p->last + 1) % MAX == p->first)
+	if((p->last + 1) % MAX_Q_SIZE == p->first)
 		return 1;
 	
 	return 0;
@@ -36,7 +36,7 @@ int contains_coords(deque *p, int x, int y) {
 	while (i != p -> last) {
 		if (p->data[i].x == x && p->data[i].y == y)
 			return 1;
-		i = (i + 1) % MAX;
+		i = (i + 1) % MAX_Q_SIZE;
 	}
 	if (p->data[p->last].x == x && p->data[p->last].y == y)
 		return 1;
@@ -61,7 +61,7 @@ void enqueue_tail(deque *p, coords c) {
     p->data[0].y = c.y;
 	} 
   else {
-		p->last = (p->last + 1) % MAX;
+		p->last = (p->last + 1) % MAX_Q_SIZE;
 		p->data[p->last].x = c.x;
     p->data[p->last].y = c.y;
 	}
@@ -77,7 +77,7 @@ void enqueue_head(deque *p, coords c) {
     p->data[0].y = c.y;
 	}
 	else {
-		p->first = (p->first - 1 + MAX) % MAX;
+		p->first = (p->first - 1 + MAX_Q_SIZE) % MAX_Q_SIZE;
 		p->data[p->first].x = c.x;
     p->data[p->first].y = c.y;
 	}
@@ -92,7 +92,7 @@ coords dequeue_head(deque *p) {
 	if (p->last == p->first)	//delete the last element
 		initialize(p);
 	else
-		p->first = (p->first + 1) % MAX;
+		p->first = (p->first + 1) % MAX_Q_SIZE;
 	
 	return c;
 }
@@ -106,7 +106,7 @@ coords dequeue_tail(deque *p) {
 	if (p->last == p->first)
 		initialize(p);
 	else
-		p->last = (p->last - 1 + MAX) % MAX;
+		p->last = (p->last - 1 + MAX_Q_SIZE) % MAX_Q_SIZE;
 		
 	return c;
 }
@@ -122,7 +122,7 @@ void print(deque *p) {
 	
 	while (i != p -> last) {
 		printf("\n\r(%d, %d)", p->data[i].x, p->data[i].y);
-		i = (i + 1) % MAX;
+		i = (i + 1) % MAX_Q_SIZE;
 	}
 	
 	printf("\n\r(%d, %d)\n\r", p->data[p->last].x, p->data[p->last].y);
