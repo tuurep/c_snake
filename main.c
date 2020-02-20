@@ -47,17 +47,22 @@ void print_stage(deque *snake, int h, int w) {
   printf("\n\r");
 }
 
-void move_snake(deque *snake, coords new_head) {
+bool move_snake(deque *snake, coords new_head) {
   if (!contains_coords(snake, new_head.x, new_head.y)) {
     enqueue_head(snake, new_head);
-    if (!(new_head.x == apple.x && new_head.y == apple.y)) {
-      dequeue_tail(snake);
-    }
-    else {
-      apple.x = rand_range(1, STAGE_WIDTH - 1);
-      apple.y = rand_range(1, STAGE_HEIGHT - 1);
-    }
   }
+  else {
+    return 0;
+  }
+
+  if (!(new_head.x == apple.x && new_head.y == apple.y)) {
+    dequeue_tail(snake);
+  }
+  else {
+    apple.x = rand_range(1, STAGE_WIDTH - 1);
+    apple.y = rand_range(1, STAGE_HEIGHT - 1);
+  }
+  return 1;
 }
 
 int main() {
@@ -127,31 +132,32 @@ int main() {
       dir = D;
 
     coords new_head = peek_head(&snake);
+    bool alive = 0;
 
     if (dir == R && peek_head(&snake).x < STAGE_WIDTH - 1) {
       new_head.x++;
-      move_snake(&snake, new_head);
+      alive = move_snake(&snake, new_head);
     }
-
-    if (dir == L && peek_head(&snake).x > 0) {
+    else if (dir == L && peek_head(&snake).x > 0) {
       new_head.x--;
-      move_snake(&snake, new_head);
+      alive = move_snake(&snake, new_head);
     }
-
-    if (dir == U && peek_head(&snake).y < STAGE_WIDTH) {
+    else if (dir == U && peek_head(&snake).y < STAGE_WIDTH) {
       new_head.y++;
-      move_snake(&snake, new_head);
+      alive = move_snake(&snake, new_head);
     }
-
-    if (dir == D && peek_head(&snake).y > 1) {
+    else if (dir == D && peek_head(&snake).y > 1) {
       new_head.y--;
-      move_snake(&snake, new_head);
+      alive = move_snake(&snake, new_head);
+    }
+    if(!alive) {
+      break;
     }
   }
 
   endwin();
-
   print_stage(&snake, STAGE_HEIGHT, STAGE_WIDTH);
+  printf("\nYOU DIED\n\n");
 
   return 0;
 }
