@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include <time.h> 
 #include "deque.h"
+
+coords apple;
+
+int rand_range(int min_n, int max_n) {
+    return rand() % (max_n - min_n + 1) + min_n;
+}
 
 void ncurses_settings() {
   initscr();
@@ -23,6 +30,9 @@ void print_stage(deque *snake, int h, int w) {
       if (contains_coords(snake, x, h - y)) {
         printf("%c ", BODY);
       }
+      else if (apple.x == x && apple.y == h - y) {
+        printf("%c ", APPLE);
+      }
       else {
         printf("%c ", EMPTY);
       }
@@ -40,7 +50,13 @@ void print_stage(deque *snake, int h, int w) {
 void move_snake(deque *snake, coords new_head) {
   if (!contains_coords(snake, new_head.x, new_head.y)) {
     enqueue_head(snake, new_head);
-    dequeue_tail(snake);
+    if (!(new_head.x == apple.x && new_head.y == apple.y)) {
+      dequeue_tail(snake);
+    }
+    else {
+      apple.x = rand_range(1, STAGE_WIDTH - 1);
+      apple.y = rand_range(1, STAGE_HEIGHT - 1);
+    }
   }
 }
 
@@ -51,6 +67,11 @@ int main() {
 
   int ch;
   deque snake;
+
+  // Call only once
+  srand(time(0));
+  apple.x = rand_range(1, STAGE_WIDTH - 1);
+  apple.y = rand_range(1, STAGE_HEIGHT - 1);
 
   // To be randomized:
   enum direction dir = R;
@@ -87,7 +108,8 @@ int main() {
   ncurses_settings();
 
   while(1) {
-    print(&snake);
+    clear();
+    refresh();
     print_stage(&snake, STAGE_HEIGHT, STAGE_WIDTH);
 
     timeout(200);
@@ -125,13 +147,10 @@ int main() {
       new_head.y--;
       move_snake(&snake, new_head);
     }
-
-    printf("%d %c\n\r", ch, ch);
   }
 
   endwin();
 
-  print(&snake);
   print_stage(&snake, STAGE_HEIGHT, STAGE_WIDTH);
 
   return 0;

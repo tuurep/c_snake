@@ -11,7 +11,7 @@
 #define BORDER '$'
 #define BODY 'O'
 #define EMPTY ' '
-#define APPLE 'o'
+#define APPLE 'a'
 
 // Change speed here
 #define nothing
@@ -21,5 +21,10 @@
 
 // Don't change
 #define MAX_Q_SIZE (STAGE_HEIGHT * STAGE_WIDTH)
+
+typedef struct coords {
+	int x;
+  int y;
+} coords;
 
 #endif
