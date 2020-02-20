@@ -68,8 +68,6 @@ void enqueue_tail(deque *p, coords c) {
 }
  
 void enqueue_head(deque *p, coords c) {
-	printf("\n\rFIRST(HEAD): %d, LAST(TAIL): %d\n\r", p->first, p->last);
-
 	if (empty(p)) {
     p->last = 0;
 		p->first = 0;

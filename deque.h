@@ -4,11 +4,6 @@
 #include <stdlib.h>
 #include "game_settings.h"
 
-typedef struct coords {
-	int x;
-  int y;
-} coords;
-
 typedef struct deque {
 	coords data[MAX_Q_SIZE];
 	int first, last;
