@@ -5,10 +5,7 @@
 #include "deque.h"
 
 coords apple;
-
-int rand_range(int min_n, int max_n) {
-    return rand() % (max_n - min_n + 1) + min_n;
-}
+int score = 0;
 
 void ncurses_settings() {
   initscr();
@@ -47,6 +44,19 @@ void print_stage(deque *snake, int h, int w) {
   printf("\n\r");
 }
 
+int rand_range(int min_n, int max_n) {
+    return rand() % (max_n - min_n + 1) + min_n;
+}
+
+void spawn_apple(deque *snake) {
+  while (1) {
+    apple.x = rand_range(1, STAGE_WIDTH - 1);
+    apple.y = rand_range(1, STAGE_HEIGHT - 1);
+    if (!contains_coords(snake, apple.x, apple.y))
+      break;
+  }
+}
+
 bool move_snake(deque *snake, coords new_head) {
   if (!contains_coords(snake, new_head.x, new_head.y)) {
     enqueue_head(snake, new_head);
@@ -59,8 +69,8 @@ bool move_snake(deque *snake, coords new_head) {
     dequeue_tail(snake);
   }
   else {
-    apple.x = rand_range(1, STAGE_WIDTH - 1);
-    apple.y = rand_range(1, STAGE_HEIGHT - 1);
+    score++;
+    spawn_apple(snake);
   }
   return 1;
 }
@@ -75,8 +85,6 @@ int main() {
 
   // Call only once
   srand(time(0));
-  apple.x = rand_range(1, STAGE_WIDTH - 1);
-  apple.y = rand_range(1, STAGE_HEIGHT - 1);
 
   // To be randomized:
   enum direction dir = R;
@@ -109,6 +117,8 @@ int main() {
   enqueue_tail(&snake, body2);
   enqueue_tail(&snake, body3);
   enqueue_tail(&snake, tail);
+
+  spawn_apple(&snake);
   
   ncurses_settings();
 
@@ -157,7 +167,7 @@ int main() {
 
   endwin();
   print_stage(&snake, STAGE_HEIGHT, STAGE_WIDTH);
-  printf("\nYOU DIED\n\n");
+  printf("\nYOU DIED\nScore: %d\n\n", score);
 
   return 0;
 }
