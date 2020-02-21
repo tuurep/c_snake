@@ -152,7 +152,7 @@ int main() {
       new_head.x--;
       alive = move_snake(&snake, new_head);
     }
-    else if (dir == U && peek_head(&snake).y < STAGE_WIDTH) {
+    else if (dir == U && peek_head(&snake).y < STAGE_HEIGHT) {
       new_head.y++;
       alive = move_snake(&snake, new_head);
     }

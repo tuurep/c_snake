@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 // Change stage size here
-#define STAGE_HEIGHT 15
+#define STAGE_HEIGHT 20
 #define STAGE_WIDTH 15
 
 // Change aesthetics here
